@@ -22,12 +22,14 @@ function renderProducts() {
   productList.innerHTML = "";
   products.forEach((product) => {
     const li = document.createElement("li");
+
     const btn = document.createElement("button");
     btn.textContent = "Add to Cart";
-    btn.dataset.id = product.id;
     btn.onclick = () => addToCart(product.id);
+
     li.textContent = `${product.name} - $${product.price} `;
     li.appendChild(btn);
+
     productList.appendChild(li);
   });
 }
@@ -35,6 +37,7 @@ function renderProducts() {
 function renderCart() {
   const cart = getCart();
   cartList.innerHTML = "";
+
   cart.forEach((item) => {
     const li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price}`;
@@ -43,21 +46,11 @@ function renderCart() {
 }
 
 function addToCart(productId) {
-  let cart = sessionStorage.getItem("cart");
-
-  if (!cart) {
-    cart = [
-      { id: 1, name: "Product 1", price: 10 },
-      { id: 5, name: "Product 5", price: 50 }
-    ];
-  } else {
-    cart = JSON.parse(cart);
-  }
-
+  const cart = getCart();
   const product = products.find((p) => p.id === productId);
-  cart.push(product);
 
-  sessionStorage.setItem("cart", JSON.stringify(cart));
+  cart.push(product);
+  saveCart(cart);
   renderCart();
 }
 
