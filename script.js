@@ -11,7 +11,15 @@ const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
 function getCart() {
-  return JSON.parse(sessionStorage.getItem("cart")) || [];
+  let cart = JSON.parse(sessionStorage.getItem("cart"));
+  if (!cart) {
+    cart = [
+      { id: 1, name: "Product 1", price: 10 },
+      { id: 5, name: "Product 5", price: 50 }
+    ];
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+  }
+  return cart;
 }
 
 function saveCart(cart) {
