@@ -11,15 +11,7 @@ const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
 function getCart() {
-  let cart = JSON.parse(sessionStorage.getItem("cart"));
-  if (!cart) {
-    cart = [
-      { id: 1, name: "Product 1", price: 10 },
-      { id: 5, name: "Product 5", price: 50 }
-    ];
-    sessionStorage.setItem("cart", JSON.stringify(cart));
-  }
-  return cart;
+  return JSON.parse(sessionStorage.getItem("cart")) || [];
 }
 
 function saveCart(cart) {
@@ -32,7 +24,6 @@ function renderProducts() {
     const li = document.createElement("li");
     const btn = document.createElement("button");
     btn.textContent = "Add to Cart";
-    btn.className = "add-to-cart-btn";
     btn.dataset.id = product.id;
     btn.onclick = () => addToCart(product.id);
     li.textContent = `${product.name} - $${product.price} `;
