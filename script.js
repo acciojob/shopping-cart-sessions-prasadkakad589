@@ -20,15 +20,20 @@ function saveCart(cart) {
 
 function renderProducts() {
   productList.innerHTML = "";
+
   products.forEach((product) => {
     const li = document.createElement("li");
 
-    const btn = document.createElement("button");
-    btn.textContent = "Add to Cart";
-    btn.onclick = () => addToCart(product.id);
+    li.innerHTML = `
+      ${product.name} - $${product.price}
+      <button>Add to Cart</button>
+    `;
 
-    li.textContent = `${product.name} - $${product.price} `;
-    li.appendChild(btn);
+    const button = li.querySelector("button");
+
+    button.addEventListener("click", () => {
+      addToCart(product.id);
+    });
 
     productList.appendChild(li);
   });
@@ -36,30 +41,37 @@ function renderProducts() {
 
 function renderCart() {
   const cart = getCart();
+
   cartList.innerHTML = "";
 
   cart.forEach((item) => {
     const li = document.createElement("li");
+
     li.textContent = `${item.name} - $${item.price}`;
+
     cartList.appendChild(li);
   });
 }
 
 function addToCart(productId) {
   const cart = getCart();
+
   const product = products.find((p) => p.id === productId);
 
   cart.push(product);
+
   saveCart(cart);
+
   renderCart();
 }
 
 function clearCart() {
   sessionStorage.removeItem("cart");
+
   renderCart();
 }
 
-clearCartBtn.onclick = clearCart;
+clearCartBtn.addEventListener("click", clearCart);
 
 renderProducts();
 renderCart();
